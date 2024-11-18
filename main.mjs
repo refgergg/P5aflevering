@@ -29,6 +29,12 @@ function setup() {
   loadPixels();
   const d = pixelDensity();
 
+  // Spawn player and enemy at positions
+  spawnPlayerAndEnemies(d);
+
+  // Find shortest path to player
+  AIinitSetup();
+
   // Draw trees
   drawTrees();
 
@@ -37,11 +43,9 @@ function setup() {
   textSize(26);
   text("seed: " + str(seed), 5, 25);
   
-  // Spawn player and enemy at positions
-  spawnPlayerAndEnemies(d);
+ 
 
-  // Find shortest path to player
-  AIinitSetup();
+
 }
 
 function draw() {
