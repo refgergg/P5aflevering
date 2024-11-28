@@ -1,3 +1,9 @@
+/* Copyright by YOUR MOM HAHAHHAHAHAHHA
+*
+*   yeah thats right cry
+*
+*/
+
 // An object to describe a spot in the grid
 function Spot(i, j) {
 
@@ -20,7 +26,7 @@ function Spot(i, j) {
     sizeupi = map(this.i, 0, 50, 0, width);
     sizeupj = map(this.j, 0, 50, 0, height);
     gc = get(sizeupi, sizeupj);
-    console.log(gc, this.i, this.j);
+    //console.log(gc, this.i, this.j);
 
     // Am I a wall?
     this.wall = true;

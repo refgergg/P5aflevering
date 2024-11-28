@@ -5,13 +5,30 @@
 */
 
 //import Game from "./game.mjs";
+let d;
+
+// Set to false when game is done
+var DebugAIDraw = true;
+var DebugRenderStats = true;
 
 function preload() {
   playerimg = loadImage("./sprites/green.png");
   enemyimg = loadImage("./sprites/red.png");
 }
 
+function spawnPlayerAndEnemyMain(indeed) {
+
+  if(indeed === false) {
+    return spawnPlayerAndEnemies(d);
+  } else {
+    drawPnEImages();
+  }
+}
+
 function setup() {
+
+  // Render Stats
+  p5play.renderStats = DebugRenderStats;
   //Use image center mode
   imageMode(CENTER);
 
@@ -27,13 +44,10 @@ function setup() {
   // Draw terrain and load the pixels into array
   drawTerrain();
   loadPixels();
-  const d = pixelDensity();
-
-  // Spawn player and enemy at positions
-  spawnPlayerAndEnemies(d);
+  d = pixelDensity();
 
   // Find shortest path to player
-  AIinitSetup();
+  AIinitSetup(DebugAIDraw);
 
   // Draw trees
   drawTrees();
@@ -43,11 +57,7 @@ function setup() {
   textSize(26);
   text("seed: " + str(seed), 5, 25);
   
- 
 
-
-}
-
-function draw() {
-
+  // UI Setup
+  UISetup();
 }

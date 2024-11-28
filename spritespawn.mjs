@@ -4,12 +4,12 @@
 *
 */
 
-// Player enemy variables
-let playerimg;
-let enemyimg;
+// Enemy locations
+let playerPixelLocation = [];
+let enemyPixelLocation = [];
 
 function spawnPlayerAndEnemies(d) {
-    let playerPixelLocation = [];
+
     // Find player location by first green pixel from top left corner
     player:
     for(x = 100; x < width-100; x++) {
@@ -24,7 +24,6 @@ function spawnPlayerAndEnemies(d) {
       }
     }
   
-    let enemyPixelLocation = [];
     // Find enemy location by first green pixel from bottom right corner
     enemy:
     for(x = 900; x > width-900; x--) {
@@ -38,8 +37,12 @@ function spawnPlayerAndEnemies(d) {
         }
       }
     }
-  
-    // Draw player and opponent
-    image(playerimg, playerPixelLocation[0], playerPixelLocation[1], 50, 50);
-    image(enemyimg, enemyPixelLocation[0], enemyPixelLocation[1], 50, 50);
+
+    return [playerPixelLocation, enemyPixelLocation];
+}
+
+function drawPnEImages() {
+  // Create player and opponent and draw their images
+  play = new Player(playerPixelLocation[0], playerPixelLocation[1], true);
+  enem = new Player(enemyPixelLocation[0], enemyPixelLocation[1], false);
 }
