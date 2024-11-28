@@ -18,5 +18,5 @@ function StartGame() {
     window.location.href = "Game.html";
 }
 function Settings() {
-
+  window.location.href = "Settings.html"
 }
