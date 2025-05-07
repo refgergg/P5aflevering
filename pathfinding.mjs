@@ -45,7 +45,7 @@ var w, h;
 // The road taken
 var path = [];
 
-var aibool;
+var finished;
 
 function AIinitSetup(aibool) {
   console.log('A*');
@@ -98,114 +98,128 @@ function AIinitSetup(aibool) {
   openSet.push(start);
 }
 
+
 function draw() {
 
-  // Am I still searching?
-  if (openSet.length > 0) {
+  if (finished === true) {
+        //noLoop();
+        clear();
+        copy(buffer, 0, 0, buffer.width, buffer.height, 0, 0, width, height);
+        console.log("not running");
 
-    // Best next option
-    var winner = 0;
-    for (var i = 0; i < openSet.length; i++) {
-      if (openSet[i].f < openSet[winner].f) {
-        winner = i;
-      }
-    }
-    var current = openSet[winner];
-
-    // Did I finish?
-    if (current === end) {
-      noLoop();
-      console.log("DONE!");
-      console.log(path);
-      spawnPlayerAndEnemyMain(true);
-    }
-
-    // Best option moves from openSet to closedSet
-    removeFromArray(openSet, current);
-    closedSet.push(current);
-
-    // Check all the neighbors
-    var neighbors = current.neighbors;
-    for (var i = 0; i < neighbors.length; i++) {
-      var neighbor = neighbors[i];
-
-      // Valid next spot?
-      if (!closedSet.includes(neighbor) && !neighbor.wall) {
-        var tempG = current.g + heuristic(neighbor, current);
-
-        // Is this a better path than before?
-        var newPath = false;
-        if (openSet.includes(neighbor)) {
-          if (tempG < neighbor.g) {
-          neighbor.g = tempG;
-          newPath = true;
-          }
-        } else {
-          neighbor.g = tempG;
-          newPath = true;
-          openSet.push(neighbor);
+        if(testVar) {
+          barrack.x = mouseX;
+          barrack.y = mouseY;
         }
-
-        // Yes, it's a better path
-        if (newPath) {
-          neighbor.h = heuristic(neighbor, end);
-          neighbor.f = neighbor.g + neighbor.h;
-          neighbor.previous = current;
-        }
-      }
-    }
-    // Uh oh, no solution
   } else {
-    console.log('no solution');
-    noLoop();
-    return;
-  }
+    // Am I still searching?
+    if (openSet.length > 0) {
 
-  // Draw current state of everything
-  //background(255);
-
-  // Find the path by working backwards
-  path = [];
-  var temp = current;
-  path.push(temp);
-  while (temp.previous) {
-    path.push(temp.previous);
-    temp = temp.previous;
-  }
-
-  //Debug draw
-  if(DebugAIDraw === true) {
-    for (var i = 0; i < cols; i++) {
-      for (var j = 0; j < rows; j++) {
-          grid[i][j].show();
+      // Best next option
+      var winner = 0;
+      for (var i = 0; i < openSet.length; i++) {
+        if (openSet[i].f < openSet[winner].f) {
+          winner = i;
+        }
       }
+      var current = openSet[winner];
+
+      // Did I finish?
+      if (current === end) {
+        console.log("DONE!");
+        console.log(path);
+        spawnPlayerAndEnemyMain(true);
+        finished = true;
+        return;
+      }
+
+      // Best option moves from openSet to closedSet
+      removeFromArray(openSet, current);
+      closedSet.push(current);
+
+      // Check all the neighbors
+      var neighbors = current.neighbors;
+      for (var i = 0; i < neighbors.length; i++) {
+        var neighbor = neighbors[i];
+
+        // Valid next spot?
+        if (!closedSet.includes(neighbor) && !neighbor.wall) {
+          var tempG = current.g + heuristic(neighbor, current);
+
+          // Is this a better path than before?
+          var newPath = false;
+          if (openSet.includes(neighbor)) {
+            if (tempG < neighbor.g) {
+            neighbor.g = tempG;
+            newPath = true;
+            }
+          } else {
+            neighbor.g = tempG;
+            newPath = true;
+            openSet.push(neighbor);
+          }
+
+          // Yes, it's a better path
+          if (newPath) {
+            neighbor.h = heuristic(neighbor, end);
+            neighbor.f = neighbor.g + neighbor.h;
+            neighbor.previous = current;
+          }
+        }
+      }
+      // Uh oh, no solution
+    } else {
+      console.log('no solution');
+      noLoop();
+      return;
     }
-    
-    for (var i = 0; i < closedSet.length; i++) {
-      closedSet[i].show(color(255, 0, 0, 50));
+
+    // Draw current state of everything
+    //background(255);
+
+    // Find the path by working backwards
+    path = [];
+    var temp = current;
+    path.push(temp);
+    while (temp.previous) {
+      path.push(temp.previous);
+      temp = temp.previous;
     }
-  
-    for (var i = 0; i < openSet.length; i++) {
-      openSet[i].show(color(0, 255, 0, 50));
+
+    //Debug draw
+    if(DebugAIDraw === true) {
+      for (var i = 0; i < cols; i++) {
+        for (var j = 0; j < rows; j++) {
+            grid[i][j].show();
+        }
+      }
+      
+      for (var i = 0; i < closedSet.length; i++) {
+        closedSet[i].show(color(255, 0, 0, 50));
+      }
+    
+      for (var i = 0; i < openSet.length; i++) {
+        openSet[i].show(color(0, 255, 0, 50));
+      }
+      
+    
+      
+    
+      
+      // for (var i = 0; i < path.length; i++) {
+      // path[i].show(color(0, 0, 255));
+      //}
+    
+      // Drawing path as continuous line
+      noFill();
+      stroke(255, 0, 200);
+      strokeWeight(w / 2);
+      beginShape();
+      for (var i = 0; i < path.length; i++) {
+        vertex(path[i].i * w + w / 2, path[i].j * h + h / 2);
+      }
+      endShape();
     }
-    
-  
-    
-  
-    
-    // for (var i = 0; i < path.length; i++) {
-    // path[i].show(color(0, 0, 255));
-    //}
-  
-    // Drawing path as continuous line
-    noFill();
-    stroke(255, 0, 200);
-    strokeWeight(w / 2);
-    beginShape();
-    for (var i = 0; i < path.length; i++) {
-      vertex(path[i].i * w + w / 2, path[i].j * h + h / 2);
-    }
-    endShape();
   }
   
   

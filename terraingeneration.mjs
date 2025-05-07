@@ -13,6 +13,7 @@ let rez = 0.005;
 
 
 function drawTerrain() {
+  //pg = createGraphics(width, height);
   // Loop over canvas, set noise, map to bigger number, then define hue and sat based on noise, then fill
   for(i = 0; i < width; i+=3){
     for(j = 0; j < height; j+=3){

@@ -3,11 +3,13 @@
 *   yeah thats right cry
 *
 */
+var testVar = false;
 
 function UISetup() {
     let BarrackButton = createButton('Barracks (10 wood)');
     BarrackButton.position(width, height-100);
     BarrackButton.mousePressed(helloworld);
+
 
 }
 
@@ -21,26 +23,9 @@ function helloworld() {
     barrack.width = 50;
     barrack.height = 50;
     console.log(barrack);
+    testVar = true;
 
     // Return created barrack sprite
     return barrack;
-
-    /*while(!barrack.placedDown) {
-        barrack.x = mouseX;
-        barrack.y = mouseY;
-
-        if(mouse.presses('left')) {
-            barrack.placedDown = true;
-        }
-    }*/
 }
 
-
-/*function draw() {
-    if(testVar) {
-        barrack.x = mouseX;
-        barrack.y = mouseY;
-    }
-    //clear();
-    //testFunction();
-}*/
