@@ -28,7 +28,7 @@ function spawnPlayerAndEnemyMain(indeed) {
 function setup() {
 
   // Render Stats
-  p5play.renderStats = DebugRenderStats;
+  //p5play.renderStats = DebugRenderStats;
   //Use image center mode
   imageMode(CENTER);
 
